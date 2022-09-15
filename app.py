@@ -60,4 +60,4 @@ def addcar():
         return redirect('/')
 
 if(__name__ == "__main__"):
-    carsales.run()
+    app.run(debug=True)
