@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import Flask, render_template
 import pyodbc
 from flask import request,redirect

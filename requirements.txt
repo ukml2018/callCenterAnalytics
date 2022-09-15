@@ -14,7 +14,6 @@ tpot>=0.11.0
 seaborn==0.9.0
 cloudpickle>=0.6.0
 pyodbc==4.0.34
-crypt==1.3.4
 scikit-learn==0.22.2
 joblib==0.14.0
 SpeechRecognition==2.2.0
