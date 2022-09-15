@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+    <title>Call Center Details</title>
+</head>
+
+<body>
+    <h2>Call Center Details</h2>
+    <a class="btn btn-primary" href="add">Add New Complain</a>
+<table class="table">
+    <thead>
+        <tr>
+        <th scope="col">text_message</th>
+        <th scope="col">transaction_type</th>
+        <th scope="col">languag</th>
+        <th scope="col">agent_id</th>
+        </tr>
+
+        
+    </thead>
+    <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.text_message }}</th>
+                <td>{{ car.transaction_type }}</td>
+                <td>{{ car.languag }}</td>
+                <td>{{ car.agent_id }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>

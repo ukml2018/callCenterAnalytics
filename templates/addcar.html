@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+    <title>Call Center Input</title>
+    
+    <link rel="stylesheet" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
+    
+	<script crossorigin="anonymous"
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" >
+	</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
+
+</head>
+
+<body>
+    <h2>Call Center Input</h2>
+
+    <form action="" method = "POST">
+      <div class="form-group row">
+        <label for="transaction_type">transaction_type</label>
+        <input type="text" class="form-control" name="transaction_type" id="transaction_type">
+    </div>
+    <div class="form-group row">
+        <label for="languag">language</label>
+        <input type="text" class="form-control" name="languag" id="languag">
+
+        <div class="form-group row">
+          <label for="text_message">Complain</label>
+          <input type="text" class="form-control" name="text_message" id="text_message">
+          <input type="button" id="start" value='Voice Record' onclick='startRecording();'/>
+        </div>
+        
+        </div>
+        
+                  
+        <button type="btnAdd" class="btn btn-primary">Submit</button>
+        <a href="/" class="btn btn-primary">Cancel</a>
+      </form>
+      <script>
+        var recognition = new webkitSpeechRecognition();
+        recognition.onresult = function(event) {
+          var saidText = "";
+          for (var i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              saidText = event.results[i][0].transcript;
+            } else {
+              saidText += event.results[i][0].transcript;
+            }
+          }
+          // Update Textbox value
+          document.getElementById('text_message').value = saidText;
+            // Search Posts
+          searchPosts(saidText);
+        }
+        
+        function startRecording(){
+          recognition.start();
+        }
+        
+        </script>
+</body>
+</html>
