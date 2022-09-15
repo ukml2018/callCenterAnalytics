@@ -3,7 +3,7 @@ import pyodbc
 from flask import request,redirect
 import speech_recognition as sr
 
-carsales = Flask(__name__)
+application = Flask(__name__)
 
 def connection():
     s = 'ht-sqlserver22.database.windows.net' 
@@ -14,7 +14,7 @@ def connection():
     conn = pyodbc.connect(cstr)
     return conn
 
-@carsales.route("/")
+@application.route("/")
 def main():
     cars = []
     conn = connection()
@@ -25,7 +25,7 @@ def main():
     conn.close()
     return render_template("carslist.html", cars = cars)
 
-@carsales.route("/add", methods = ['GET','POST'])
+@application.route("/add", methods = ['GET','POST'])
 def addcar():
     if request.method == 'GET':
         return render_template("addcar.html")
@@ -60,4 +60,4 @@ def addcar():
         return redirect('/')
 
 if(__name__ == "__main__"):
-     app.run(debug=True)
+     application.run(debug=True)
