@@ -16,3 +16,5 @@ cloudpickle>=0.6.0
 pyodbc==4.0.34
 joblib==0.14.0
 SpeechRecognition==2.2.0
+googletrans==4.0.0-rc.1
+vaderSentiment==3.3.2
