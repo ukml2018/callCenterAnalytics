@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 import pyodbc
 from flask import request,redirect
 import speech_recognition as sr
@@ -98,7 +98,8 @@ def  capture_sentiment():
                 translator = Translator()
                 language_dict:dict = Trans.LANGUAGES
                 print(f"printing the language   {each['languag']}")  
-                print(f"#########################")   
+                print(f"#########################")
+                from_lang =''   
                 for k, v in language_dict.items():
                     ###print(f"printing  key {k} , value , {v}")                    
                     if each['languag']==v :
@@ -155,6 +156,20 @@ def  capture_sentiment():
 
 @application.route("/")
 def main():
+    return render_template("index.html" )
+
+@application.route("/downloads")
+def tos():
+    workingdir = os.path.abspath(os.getcwd())
+    filepath = workingdir + '/static/files/'
+    return send_from_directory(filepath, 'tos.pdf')
+
+@application.route("/login")
+def main2():
+    return render_template("login.html" )
+
+@application.route("/detail")
+def main1():
     cars = []
     conn = connection()
     cursor = conn.cursor()
