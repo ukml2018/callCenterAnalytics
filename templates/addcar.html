@@ -25,13 +25,23 @@
         <input type="text" class="form-control" name="transaction_type" id="transaction_type">
     </div>
     <div class="form-group row">
-        <label for="languag">language</label>
-        <input type="text" class="form-control" name="languag" id="languag">
+       
+        
+        <label for="languag">Choose a languag:</label>
+  <select id="languag" name="languag" class="form-control">
+    <option value="english">english</option>
+    <option value="hindi">hindi</option>
+    <option value="marati">marati</option>
+ 
+  </select>
 
         <div class="form-group row">
           <label for="text_message">Complain</label>
-          <input type="text" class="form-control" name="text_message" id="text_message">
-          <input type="button" id="start" value='Voice Record' onclick='startRecording();'/>
+          <input type="text" class="form-control" name="text_message" id="text_message" x-webkit-speech />
+
+          <input type="button" id="start" value='Voice Record' onclick='startRecording();' class="button-add" />
+          
+          
         </div>
         
         </div>
@@ -62,5 +72,6 @@
         }
         
         </script>
+        
 </body>
 </html>
