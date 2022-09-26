@@ -19,7 +19,6 @@ SpeechRecognition==2.2.0
 googletrans==4.0.0-rc.1
 vaderSentiment==3.3.2
 tweepy==4.10.1
-json==2.0.9
 ssl==1.1.0
 torchvision==0.11.3
 nltk==3.6.7
