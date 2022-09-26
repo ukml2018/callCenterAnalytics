@@ -221,7 +221,7 @@ def  capture_sentiment():
 
 @application.route("/")
 def main():
-    return render_template("index.html" )
+    return render_template("base.html" )
 
 @application.route("/downloads")
 def tos():
@@ -249,7 +249,7 @@ def streamtweet():
     delete = twdb.delete_all_rules(rules)
     set = twdb.set_rules(delete)
     twdb.get_stream(set)
-    return render_template("index.html" )
+    return render_template("base.html" )
 
 
 @application.route("/login")
