@@ -9,8 +9,55 @@ import speech_recognition as spr
 from googletrans import Translator
 import googletrans as Trans
 import os
+import twitterinsertdb as twdb
+import json
+from urllib import response
+from flask import Flask , render_template , request , jsonify
+### mail package ##start 
+from email.message import EmailMessage
+# Import modules
+import smtplib, ssl
+## email.mime subclasses
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+## The pandas library is only for generating the current date, which is not necessary for sending emails
+import pandas as pd
+import time
+
+
+from chat import get_response
+
+app=Flask(__name__)
 
 application = Flask(__name__)
+
+def send_email(user_id,text_msg):     
+    EMAIL_ADDRESS = 'bobcomplain@gmail.com'#os.environ.get('EMAIL_USER')
+    EMAIL_PASSWORD = 'kkkcaxjcvxlaulqb'##os.environ.get('EMAIL_PASS')
+
+    contacts = ['bobcomplain@gmail.com']
+
+    msg = EmailMessage()
+    msg['Subject'] = 'Escalation Email-Customer dissatisfaction'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = 'bobcomplain@gmail.com'
+
+    msg.set_content('This is a plain text email')
+
+    msg.add_alternative("""\
+    <!DOCTYPE html>
+    <html>
+        <body>
+            <h1 style="color:SlateGray;">User_id:""" +user_id+ """</h1>"
+            <h2 style="color:SlateGray;">Customer Response:""" +text_msg+ """</h2>"
+        </body>
+    </html>
+    """, subtype='html')
+
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
 
 def connection():
     s = 'ht-sqlserver22.database.windows.net' 
@@ -20,6 +67,7 @@ def connection():
     cstr = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER='+s+';DATABASE='+d+';UID='+u+';PWD='+ p
     conn = pyodbc.connect(cstr)
     return conn
+    
 ## function to get the compound polarity score 
 def get_polarity_score (text):
     compound_score=0
@@ -146,8 +194,25 @@ def  capture_sentiment():
                 ###   next , call the function for checking  sentiment value and customer satisfaction rating 
                 check_sentiment_label , check_cust_rating=get_sentiment_label(str(compound_score['compound']))
                 sql_3="update callSentiment set sentiment_value="+"'"+check_sentiment_label+"'"+", customer_statisfaction_rating="+"'"+check_cust_rating+"'"+"where user_id  = "+ each['user_id']
-                print(f"printing sql for sentiment value  {sql_3}")   
+                print(f"printing sql for sentiment value  {sql_3}")  
                 cursor.execute(sql_3)
+
+                ### call the function , for sending emails when polarity_score --start 
+                if float(compound_score['compound']) < 0.39:
+                    send_email(each['user_id'],each['text_message'] )
+                #####call of  sending emails when polaroty_score --end 
+                
+                chck_time=time.strftime('%Y-%m-%d %H:%M:%S')
+                cursor.execute("update dbo.callSentiment set  call_log_end=? ", chck_time)
+            
+            ### check the cursor for null transaction types   update them to generic 
+            for  index ,  each   in sentiment_df[sentiment_df['transaction_type']=="" ].iterrows(): 
+                print(f"Updating the NULL transaction types as generic, for userid {each['user_id'] }  , type {type(each['user_id'] )}")
+                trx_type:str='generic'    
+                sql = "update callSentiment  set transaction_type= "+"'"+str(trx_type) +"'"+"where  user_id  = "+ each['user_id']     
+                cursor.execute(sql)  
+
+            ##finally commit , aftre all the db transactions are over 
             cursor.commit()
 
     return sentiment_df
@@ -163,6 +228,29 @@ def tos():
     workingdir = os.path.abspath(os.getcwd())
     filepath = workingdir + '/static/files/'
     return send_from_directory(filepath, 'tos.pdf')
+
+@application.get("/chat")
+def index_get():
+    return render_template("base.html")
+
+@application.post("/predict") 
+def predict():
+    text=request.get_json().get("message")   
+    ##todo  check if text is valid 
+    response=get_response(text)
+    message={"answer":response}
+    return jsonify(message)
+
+
+
+@application.route("/twitter")
+def streamtweet():
+    rules = twdb.get_rules()
+    delete = twdb.delete_all_rules(rules)
+    set = twdb.set_rules(delete)
+    twdb.get_stream(set)
+    return render_template("index.html" )
+
 
 @application.route("/login")
 def main2():
@@ -208,7 +296,10 @@ def addcar():
         #print("Amit1.1.2")
         #print("Connection Sucess")
         #print(First_name)
-        cursor.execute("INSERT INTO dbo.callSentiment(user_id, transaction_type, languag, text_message,agent_id) VALUES (?, ?, ?, ?,?)", user_id, transaction_type, languag, text_message,agent_id)
+        #cursor.execute("INSERT INTO dbo.callSentiment(user_id, transaction_type, languag, text_message,agent_id) VALUES (?, ?, ?, ?,?)", user_id, transaction_type, languag, text_message,agent_id)
+        ##added  call log start 23rd sep 
+        call_start = time.strftime('%Y-%m-%d %H:%M:%S')
+        cursor.execute("INSERT INTO dbo.callSentiment(user_id, transaction_type, languag, text_message,agent_id, call_log_start, is_twitter_not) VALUES (?, ?, ?, ?,?,?,?)", user_id, transaction_type, languag, text_message,agent_id,call_start,'web')
         conn.commit()
         conn.close()
         print(f"Calling Sentiment analysis")

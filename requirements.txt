@@ -18,3 +18,11 @@ joblib==0.14.0
 SpeechRecognition==2.2.0
 googletrans==4.0.0-rc.1
 vaderSentiment==3.3.2
+twitterinsertdb
+json
+urllib
+email
+smtplib
+ssl
+time
+chat

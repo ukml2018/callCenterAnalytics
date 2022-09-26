@@ -1,15 +1,52 @@
-Call Center Analytics design will cover below four basics way of registering the complain and subsequently, we need to do sentiment analysis and analyse the KPIs.
-a. Web method of call registering using text or voice supported by multiple languages
-b. Chatbots complains from wen application frontend
-c. Sentiment analysis of Bank of Baroda related messages from Twitter
-The email will be sent out to support email id for highly dissatified complain. The same will be presented in real-time on Power BI dash board.
+# Chatbot Deployment with Flask and JavaScript
 
-The Architect concept and flow diagram will be as below.
-Flask application will be built and will be deployed on Azure with CI/CD pipeline using direct integration with GitHub.
-The apps will allow user to register their comments either through text or voice or chatbots in multiple language or through twitter
-Then the message will be sent through stream analytics for sentiment analysis on Jupiter notebook using python script.
-At the same time data will be captured in Azure sql database.
-The email will be sent out to the support email id for worst or highly dissatified comments or complains.
-Then  power BI will be used to visualize the dashboard for KPI metric
+In this tutorial we deploy the chatbot I created in [this](https://github.com/python-engineer/pytorch-chatbot) tutorial with Flask and JavaScript.
 
-Follow the BOB_Call_center_analytics_Solution_v1.0 for detail design description and design.
+This gives 2 deployment options:
+- Deploy within Flask app with jinja2 template
+- Serve only the Flask prediction API. The used html and javascript files can be included in any Frontend application (with only a slight modification) and can run completely separate from the Flask App then.
+
+## Initial Setup:
+This repo currently contains the starter files.
+
+Clone repo and create a virtual environment
+```
+$ git clone https://github.com/python-engineer/chatbot-deployment.git
+$ cd chatbot-deployment
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+Install dependencies
+```
+$ (venv) pip install Flask torch torchvision nltk
+```
+Install nltk package
+```
+$ (venv) python
+>>> import nltk
+>>> nltk.download('punkt')
+```
+Modify `intents.json` with different intents and responses for your Chatbot
+
+Run
+```
+$ (venv) python train.py
+```
+This will dump data.pth file. And then run
+the following command to test it in the console.
+```
+$ (venv) python chat.py
+```
+
+Now for deployment follow my tutorial to implement `app.py` and `app.js`.
+
+## Watch the Tutorial
+[![Alt text](https://img.youtube.com/vi/a37BL0stIuM/hqdefault.jpg)](https://youtu.be/a37BL0stIuM)  
+[https://youtu.be/a37BL0stIuM](https://youtu.be/a37BL0stIuM)
+
+## Note
+In the video we implement the first approach using jinja2 templates within our Flask app. Only slight modifications are needed to run the frontend separately. I put the final frontend code for a standalone frontend application in the [standalone-frontend](/standalone-frontend) folder.
+
+## Credits:
+This repo was used for the frontend code:
+https://github.com/hitchcliff/front-end-chatjs
