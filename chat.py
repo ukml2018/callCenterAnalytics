@@ -324,16 +324,16 @@ def get_response(msg):
     return "I do not understand..Please rephrase and enter short sentences as much possible."
 
 
-if __name__ == "__main__":
-    list_check=[]
-    print("Let's chat! (type 'quit' to exit)")
-    while True:
+#if __name__ == "__main__":
+#    list_check=[]
+#    print("Let's chat! (type 'quit' to exit)")
+#    while True:
         # sentence = "do you use credit cards?"
-        sentence = input("You: ")
-        if sentence == "quit":
-            break
+#        sentence = input("You: ")
+#        if sentence == "quit":
+#            break
 
-        resp = get_response(sentence)
-        print(resp)
+#        resp = get_response(sentence)
+#        print(resp)
         
             
