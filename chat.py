@@ -18,7 +18,7 @@ from nltk_utils import bag_of_words, tokenize
 ##import datetime
 import time
 import nltk
-nltk.download('punkt')
+##nltk.download('punkt')
 import pickle
 import train## add the train package to import the data_1 json added 27th sep
 ##import jsonpickle
