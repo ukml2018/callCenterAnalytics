@@ -1,7 +1,8 @@
 import numpy as np
 import random
 import json
-
+# import  jsonpickle ## added 27th sep
+# from json import JSONEncoder##added 27th sep 
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -9,7 +10,7 @@ import nltk
 nltk.download('punkt')
 from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
-
+import pickle
 with open('intents.json', 'r') as f:
     intents = json.load(f)
 
@@ -115,7 +116,7 @@ for epoch in range(num_epochs):
 
 print(f'final loss: {loss.item():.4f}')
 
-data = {
+data_1 = {
 "model_state": model.state_dict(),
 "input_size": input_size,
 "hidden_size": hidden_size,
@@ -124,7 +125,20 @@ data = {
 "tags": tags
 }
 
-FILE = "data.pth"
-torch.save(data, FILE)
+##convert the above json file to a  pickle file 
+##data_1 = jsonpickle.encode(data_1)
+#print(data_1_json)
 
-print(f'training complete. file saved to {FILE}')
+
+#print(f"printing the data json structure!!!!!!: {data_1}")
+#FILE = "data.pth"##commented 27th sep 
+#torch.save(data, FILE)##commeted 27th sep 
+
+#print(f'training complete. file saved to {FILE}')
+
+# ##added 27th sep 
+# ## next convert the pytorch model file to PKL file
+# outfile='trained_data.pkl'
+# with open(outfile,'wb') as pickle_file:
+#     print("while saving pickel file ")
+#     pickle.dump(FILE,pickle_file)

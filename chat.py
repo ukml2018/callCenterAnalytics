@@ -19,21 +19,47 @@ from nltk_utils import bag_of_words, tokenize
 import time
 import nltk
 nltk.download('punkt')
-
+import pickle
+import train## add the train package to import the data_1 json added 27th sep
+##import jsonpickle
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 with open('intents.json', 'r') as json_data:
     intents = json.load(json_data)
 
-FILE = "data.pth"
-data = torch.load(FILE)
+###commented  27th sep     
 
-input_size = data["input_size"]
-hidden_size = data["hidden_size"]
-output_size = data["output_size"]
-all_words = data['all_words']
-tags = data['tags']
-model_state = data["model_state"]
+# FILE = "data.pth" ###commenetd 27th sep
+# data = torch.load(FILE)## commented 27th sep 
+
+# data_1 = pickle.load(open('trained_data.pkl','rb'))##added 27th sep 
+# print(f"printing the data value - added 27th sep :{data_1}  , {type(data_1)}")
+# # For loading
+# myEntry = pickle.loads(b)
+
+# input_size = data["input_size"]
+# print(f"printing the input size {input_size}")
+# hidden_size = data["hidden_size"]
+# output_size = data["output_size"]
+# all_words = data['all_words']
+# tags = data['tags']
+# model_state = data["model_state"]
+
+##added 27th sep , the correct code for chat
+check_dict=train.data_1
+# check_dict = jsonpickle.decode(check_dict)
+# print("Object type is: ", type(check_dict))
+
+input_size = check_dict["input_size"]
+hidden_size = check_dict["hidden_size"]
+output_size = check_dict["output_size"]
+all_words = check_dict['all_words']
+tags = check_dict['tags']
+model_state = check_dict["model_state"]
+
+
+
+##print(f"printing the input_size {input_size} , type : {type(input_size)}")
 
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
@@ -270,7 +296,7 @@ def get_response(msg):
                     ### sentiment code start ##
                     ##insert the data into sql server 
                     conn = connection()
-                    #print("Amit1.1")
+                    
                     cursor = conn.cursor()
                     cursor.execute("SELECT max(user_id) as user_id FROM dbo.callSentiment")
                     for row in cursor.fetchall():
