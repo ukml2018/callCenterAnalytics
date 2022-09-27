@@ -2,7 +2,7 @@ from datetime import datetime
 import random
 import json
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-import speech_recognition as spr
+##import speech_recognition as spr
 from googletrans import Translator
 import googletrans as Trans
 import os
@@ -46,9 +46,12 @@ with open('intents.json', 'r') as json_data:
 # model_state = data["model_state"]
 
 ##added 27th sep , the correct code for chat
-check_dict=train.data_1
+#check_dict=train.data_1
 # check_dict = jsonpickle.decode(check_dict)
 # print("Object type is: ", type(check_dict))
+f = open("trained_data.pkl", "rb")
+check_dict= pickle.load(f)
+##print(f"printing the data!!! {check_dict}")
 
 input_size = check_dict["input_size"]
 hidden_size = check_dict["hidden_size"]

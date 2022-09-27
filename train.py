@@ -116,7 +116,7 @@ for epoch in range(num_epochs):
 
 print(f'final loss: {loss.item():.4f}')
 
-data_1 = {
+data = {
 "model_state": model.state_dict(),
 "input_size": input_size,
 "hidden_size": hidden_size,
@@ -124,20 +124,22 @@ data_1 = {
 "all_words": all_words,
 "tags": tags
 }
-
+f = open("trained_data.pkl", "wb")
+pickle.dump(data, f)
+f.close()
 ##convert the above json file to a  pickle file 
 ##data_1 = jsonpickle.encode(data_1)
 #print(data_1_json)
 
 
 #print(f"printing the data json structure!!!!!!: {data_1}")
-#FILE = "data.pth"##commented 27th sep 
-#torch.save(data, FILE)##commeted 27th sep 
+# FILE = "data.pth"##commented 27th sep 
+# torch.save(data, FILE)##commeted 27th sep 
 
 #print(f'training complete. file saved to {FILE}')
 
 # ##added 27th sep 
-# ## next convert the pytorch model file to PKL file
+## next convert the pytorch model file to PKL file
 # outfile='trained_data.pkl'
 # with open(outfile,'wb') as pickle_file:
 #     print("while saving pickel file ")
