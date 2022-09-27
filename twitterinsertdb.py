@@ -319,7 +319,7 @@ def get_stream(set):
             conn.commit()
             conn.close()
             i = i + 1
-            if i > 2:
+            if i==1:
                 ##added update sentiment functions:27th sep
                 print(f"Calling Sentiment analysis")
                 sentiment_df=capture_sentiment()
