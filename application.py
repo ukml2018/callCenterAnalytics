@@ -203,7 +203,8 @@ def  capture_sentiment():
                 #####call of  sending emails when polaroty_score --end 
                 
                 chck_time=time.strftime('%Y-%m-%d %H:%M:%S')
-                cursor.execute("update dbo.callSentiment set  call_log_end=? ", chck_time)
+                #cursor.execute("update dbo.callSentiment set  call_log_end=? ", chck_time)
+                cursor.execute("update dbo.callSentiment set  call_log_end=? where user_id = ? ", chck_time,each['user_id'])
             
             ### check the cursor for null transaction types   update them to generic 
             for  index ,  each   in sentiment_df[sentiment_df['transaction_type']=="" ].iterrows(): 
