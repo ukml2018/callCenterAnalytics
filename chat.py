@@ -247,7 +247,8 @@ def  capture_sentiment():
                 print(f"!!!!!!!!!!!!  after conversion , updating the call log end time {date_str}, {type(date_str)}")
                 ##sql_3 = "update callSentiment  set call_log_end= "+date_str+  " where user_id  = "+ each['user_id']
                 #cursor.execute(sql_3)
-                cursor.execute("update dbo.callSentiment set  call_log_end=? ", date_str)
+                #cursor.execute("update dbo.callSentiment set  call_log_end=? ", date_str)
+                cursor.execute("update dbo.callSentiment set  call_log_end=? where user_id = ? ", date_str,each['user_id'])
                 
 
                 ###   next , call the function for checking  sentiment value and customer satisfaction rating 
