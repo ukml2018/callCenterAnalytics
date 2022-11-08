@@ -1,0 +1,19 @@
+-- callCenterdb.dbo.callSentiment definition
+
+-- Drop table
+
+-- DROP TABLE callCenterdb.dbo.callSentiment;
+
+CREATE TABLE callCenterdb.dbo.callSentiment (
+	user_id bigint NULL,
+	text_message varchar(8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	sentiment_value varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	polarity_score varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	call_log_start datetime NULL,
+	call_log_end datetime NULL,
+	transaction_type varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	customer_statisfaction_rating varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	languag varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	agent_id varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	is_twitter_not varchar(10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+);
